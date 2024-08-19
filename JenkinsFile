@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git url: 'https://github.com/SumitSingh786/SUPERSTORE.git'
+
+                // Run Maven on a Unix agent.
+                script{
+                    if(isUnix()){
+                        sh "pip3 install -r requirements.txt"
+                    }
+                    else{
+                        bat "pip install -r requirements.txt"
+                    }
+                }
+            }
+        }
+        
+        stage('Docker Build') {
+            steps {
+                script{
+                if(isUnix()){
+                sh "docker build -t superstore ."
+                }
+                else{
+                 bat "docker build -t superstore ."
+                 }
+                 }
+
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                script{
+                if(isUnix()){
+                    // Stop and remove the existing container if it exists
+                    def containerCount = sh(script: "docker ps -aq | wc -l", returnStdout: true).trim()
+    
+                     if (containerCount.toInteger() > 0) {
+                            // Remove all containers
+                            sh "docker rm -f \$(docker ps -aq)"
+                     }
+                    sh "docker run -d --name storeapp -p 5000:5000 superstore"
+                }
+                else{
+                 bat "docker run -d --name storeapp -p 5000:5000 superstore"
+                 }
+                 }
+
+            }
+        }
+    }
+}

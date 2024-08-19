@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            background-color: #1e88e5;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 2.5em;
+            border-radius: 8px 8px 0 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            width: 90%;
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        li {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            width: calc(48% - 20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        li:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2);
+        }
+        strong {
+            font-size: 1.5em;
+            color: #1e88e5;
+            display: block;
+            margin-bottom: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            margin-left: 10px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #333;
+            color: #fff;
+        }
+        button {
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-top: 10px;
+            align-self: flex-end;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        a {
+            margin-top: 20px;
+            color: #1e88e5;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #1565c0;
+            text-decoration: underline;
+        }
+        .vector {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 40px;
+            fill: #1e88e5;
+        }
+        @media (max-width: 768px) {
+            ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            li {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% if products %}
+        <ul>
+        {% for product in products %}
+            <li>
+                <div>
+                    <strong>{{ product[1] }}</strong>
+                    <span>{{ product[2] }}</span>
+                    <span>${{ product[3] }}</span>
+                    <span>{{ product[4] }} in stock</span>
+                </div>
+                <form action="/order" method="post">
+                    <input type="hidden" name="product_code" value="{{ product[0] }}">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" max="{{ product[4] }}" required>
+                    <button type="submit">Order</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+    <a href="/">Go back</a>
+
+    <!-- Example vector graphic for illustration -->
+    <svg class="vector" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" />
+    </svg>
+</body>
+</html>

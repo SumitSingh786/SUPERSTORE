@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperStore</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #343a40;
+            background-image: url('https://source.unsplash.com/1600x900/?supermarket,shopping');
+            background-size: cover;
+            background-position: center;
+        }
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.8); /* Darker overlay for better contrast */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            color: #fff;
+            max-width: 90%;
+            width: 500px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-label {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #d1d1d1;
+        }
+        input[type="text"] {
+            padding: 12px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: #fff;
+            color: #333;
+            display: none; /* Hide the text field */
+        }
+        .product-buttons {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .product-buttons button {
+            padding: 10px 0; /* Adjust padding to fit content */
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 0.9em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 200px; /* Set fixed width */
+            text-align: center; /* Center text inside the button */
+        }
+        .product-buttons button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .product-buttons button:active {
+            transform: scale(0.95);
+        }
+        @media (max-width: 600px) {
+            .overlay {
+                padding: 20px;
+            }
+            .product-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+        .hidden-button {
+            display: none; /* Hide the search button */
+        }
+        .vector {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 120px;
+            height: 120px;
+            fill: #007bff;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h1>Welcome to SuperStore</h1>
+        <form id="search-form" action="/search" method="get">
+            <input type="text" id="name" name="name" required placeholder="Enter product name">
+            <label class="form-label">Click on the product you want to purchase</label>
+            <ul class="product-buttons">
+                <li><button type="button" data-value="M001">iPhone 14</button></li>
+                <li><button type="button" data-value="M003">Google Pixel 7</button></li>
+                <li><button type="button" data-value="M005">Xiaomi Mi 11</button></li>
+                <li><button type="button" data-value="M007">Huawei P50 Pro</button></li>
+                <li><button type="button" data-value="M009">Vivo X80 Pro</button></li>
+                <li><button type="button" data-value="M010">Asus ROG Phone 6</button></li>
+                <li><button type="button" data-value="M012">Realme GT 2 Pro</button></li>
+                <li><button type="button" data-value="M013">Motorola Edge 30</button></li>
+                <li><button type="button" data-value="M015">ZTE Axon 30 Ultra</button></li>
+                <li><button type="button" data-value="M020">Fairphone 4</button></li>
+            </ul>
+            <button type="submit" class="hidden-button">Search</button>
+        </form>
+    </div>
+
+    <!-- Example vector graphic for illustration -->
+    <svg class="vector" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+    </svg>
+
+    <script>
+        document.querySelectorAll('.product-buttons button').forEach(button => {
+            button.addEventListener('click', () => {
+                const input = document.getElementById('name');
+                const form = document.getElementById('search-form');
+                input.value = button.textContent; // Set the input value to the button text
+                form.submit(); // Trigger the form submission
+            });
+        });
+    </script>
+</body>
+</html>
